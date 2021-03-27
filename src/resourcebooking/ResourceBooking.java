@@ -1,9 +1,12 @@
 package resourcebooking;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import static resourcebooking.Catering.cateringDirectory;
 
 public class ResourceBooking {
 
@@ -29,9 +32,9 @@ public class ResourceBooking {
                 System.out.println("\nChoose an option:");
                 System.out.println("1 - Book a room");
                 System.out.println("2 - Request refeshments");
-                System.out.println("3 - Request equiptment");
+                System.out.println("3 - Request equipment");
                 System.out.println("4 - View catering requests");
-                System.out.println("5 - view equiptment requests");
+                System.out.println("5 - view equipment requests");
                 System.out.println("0 - Exit");
                 int menuChoice = input.nextInt();
                 switch (menuChoice) {
@@ -42,13 +45,13 @@ public class ResourceBooking {
                         reqRefreshments();
                         break;
                     case 3:
-                        reqEquiptment();
+                        reqEquipment();
                         break;
                     case 4:
                         viewCatering();
                         break;
                     case 5:
-                        viewEquiptment();
+                        viewEquipment();
                         break;
                     case 0:
 //                        Catering.writeFile(cateringRequests);
@@ -100,18 +103,18 @@ public class ResourceBooking {
 
     }
 
-    public static void reqEquiptment() {
+    public static void reqEquipment() {
 
     }
 
     public static void viewCatering() {
         for (int i = 0; i < cateringRequests.size(); i++) {
-            System.out.println(cateringRequests);
+            
             System.out.println(cateringRequests.get(i).toString());            
         }
     }
 
-    public static void viewEquiptment() {
+    public static void viewEquipment() {
 
     }
 
@@ -168,7 +171,7 @@ public class ResourceBooking {
             System.out.println(cateringRequests.get(i).toString());
         }
     }
-    
+
     
     
 }

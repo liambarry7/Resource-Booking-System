@@ -32,7 +32,7 @@ public class Catering {
     }
     
     public String toString() {
-        return "Room: " + (roomNumber) + ", Email: " + email + ", tea: " + tea + ", coffee: " + coffee + ", water: " + water + ", pastry: " + pastry + ", sandwich: " + sandwich + ", Time of Request: " + requestTime;
+        return roomNumber + ", " + email + ", "  + tea + ", " + coffee + ", " + water + ", " + pastry + ", " + sandwich + ", " + requestTime;
     }
 
     public int getRoomNumber() {
@@ -136,8 +136,8 @@ public class Catering {
         return cateringList;
     }
     
+  
     
     
-    
-    
+     
 }
