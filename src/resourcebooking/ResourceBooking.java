@@ -13,10 +13,11 @@ public class ResourceBooking {
     public static Scanner input = new Scanner(System.in);
     
     public static ArrayList<Catering> cateringRequests = new ArrayList<>();
+    public static ArrayList<Equipment> equipmentRequests = new ArrayList<>();
 
     public static void main(String[] args) {
         cateringRequests = Catering.readFile();
-        view();
+//        view();
         currentTime();
         mainMenu();
         //do user login
@@ -108,14 +109,16 @@ public class ResourceBooking {
     }
 
     public static void viewCatering() {
-        for (int i = 0; i < cateringRequests.size(); i++) {
-            
+        for (int i = 0; i < cateringRequests.size(); i++) {            
             System.out.println(cateringRequests.get(i).toString());            
         }
     }
 
     public static void viewEquipment() {
-
+        for (int i = 0; i < equipmentRequests.size(); i++) {
+            System.out.println(equipmentRequests.get(i).toString());
+            
+        }
     }
 
     public static String emailVerif() {

@@ -100,13 +100,13 @@ public class Catering {
     }
    
     
-    public static void writeFile(ArrayList<Catering> loginList) {
+    public static void writeFile(ArrayList<Catering> cateringList) {
 
         try {
             FileWriter writeToFile = new FileWriter(cateringDirectory, true); //false = overwrite, true = add
             PrintWriter printToFile = new PrintWriter(writeToFile);
-            for (int i = 0; i < loginList.size(); i++) {
-                printToFile.println(loginList.get(i).toString());
+            for (int i = 0; i < cateringList.size(); i++) {
+                printToFile.println(cateringList.get(i).toString());
             }
             printToFile.close();
             writeToFile.close();
@@ -125,8 +125,8 @@ public class Catering {
             while ((lineFromFile = read.readLine()) != null) {
                 String[] cateringDetails = lineFromFile.split(", ");
                 //String username, string password, int account number
-                Catering myLogin = new Catering(Integer.parseInt(cateringDetails[0]), cateringDetails[1], cateringDetails[2], cateringDetails[3], cateringDetails[4], cateringDetails[5], cateringDetails[6], cateringDetails[7]);
-                cateringList.add(myLogin);
+                Catering request = new Catering(Integer.parseInt(cateringDetails[0]), cateringDetails[1], cateringDetails[2], cateringDetails[3], cateringDetails[4], cateringDetails[5], cateringDetails[6], cateringDetails[7]);
+                cateringList.add(request);
             }
             read.close();
 
