@@ -14,6 +14,10 @@ public class Equiptment {
     public static String equipmentDirectory = System.getProperty("user.dir") + "\\Equipment.txt";
     
     private String pens;
+    private String paper;
+    private String whiteboard;
+    private String projector;
+    private String printer;
     
     
     

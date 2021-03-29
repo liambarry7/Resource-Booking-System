@@ -103,7 +103,7 @@ public class Catering {
     public static void writeFile(ArrayList<Catering> cateringList) {
 
         try {
-            FileWriter writeToFile = new FileWriter(cateringDirectory, true); //false = overwrite, true = add
+            FileWriter writeToFile = new FileWriter(cateringDirectory, false); //false = overwrite, true = add
             PrintWriter printToFile = new PrintWriter(writeToFile);
             for (int i = 0; i < cateringList.size(); i++) {
                 printToFile.println(cateringList.get(i).toString());

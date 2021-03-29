@@ -13,11 +13,11 @@ public class ResourceBooking {
     public static Scanner input = new Scanner(System.in);
     
     public static ArrayList<Catering> cateringRequests = new ArrayList<>();
-    public static ArrayList<Equipment> equipmentRequests = new ArrayList<>();
+    public static ArrayList<Equiptment> equipmentRequests = new ArrayList<>();
 
     public static void main(String[] args) {
         cateringRequests = Catering.readFile();
-//        view();
+
         currentTime();
         mainMenu();
         //do user login
@@ -29,6 +29,7 @@ public class ResourceBooking {
 
     public static void mainMenu() {
         while (true) {
+            cateringRequests = Catering.readFile();
             try {
                 System.out.println("\nChoose an option:");
                 System.out.println("1 - Book a room");
@@ -55,7 +56,7 @@ public class ResourceBooking {
                         viewEquipment();
                         break;
                     case 0:
-//                        Catering.writeFile(cateringRequests);
+                        Catering.writeFile(cateringRequests);
                         System.exit(menuChoice);
                 }
 
@@ -105,7 +106,26 @@ public class ResourceBooking {
     }
 
     public static void reqEquipment() {
-
+        int roomNumber = roomVerif();
+        String email = emailVerif();
+        
+        System.out.println("Would you like any pens?");
+        input.nextLine();
+        String pen = input.nextLine();
+               
+        System.out.println("Would you like any paper?");
+        String paper = input.nextLine();
+        
+        System.out.println("Would you like whiteboard and pens?");
+        String whiteboard = input.nextLine();
+        
+        System.out.println("Would you like a projector?");
+        String projector = input.nextLine();
+        
+        System.out.println("Would you like a printer?");
+        String printer = input.nextLine();
+        
+        
     }
 
     public static void viewCatering() {
@@ -168,12 +188,6 @@ public class ResourceBooking {
 
     
     
-    
-    public static void view() {
-        for (int i = 0; i < cateringRequests.size(); i++) {
-            System.out.println(cateringRequests.get(i).toString());
-        }
-    }
 
     
     
