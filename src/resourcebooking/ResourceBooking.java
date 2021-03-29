@@ -24,6 +24,7 @@ public class ResourceBooking {
         //make a 2d array to book slots, use the grid to represent times, 5 time slots per day, 5 different rooms
         //in 2d array, put an x when a time slot is booked.
         //Or a morning and afternoon slot that last 3 hours and refreshments can be delivered every hour on the hour.
+        //3 sessions, morning, lunch, afternoon
 
     }
 
@@ -37,6 +38,7 @@ public class ResourceBooking {
                 System.out.println("3 - Request equipment");
                 System.out.println("4 - View catering requests");
                 System.out.println("5 - view equipment requests");
+                System.out.println("6 - Remove booking");
                 System.out.println("0 - Exit");
                 int menuChoice = input.nextInt();
                 switch (menuChoice) {
@@ -54,6 +56,9 @@ public class ResourceBooking {
                         break;
                     case 5:
                         viewEquipment();
+                        break;
+                    case 6:
+                        removeBooking();
                         break;
                     case 0:
                         Catering.writeFile(cateringRequests);
@@ -184,6 +189,10 @@ public class ResourceBooking {
         String convertDate = formatter.format(date);                
         System.out.println(convertDate);
         return convertDate;
+    }
+    
+    public static void removeBooking() {
+        
     }
 
     
