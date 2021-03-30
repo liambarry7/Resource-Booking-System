@@ -29,6 +29,11 @@ public class ResourceBooking {
         //Or a morning and afternoon slot that last 3 hours and refreshments can be delivered every hour on the hour.
         //3 sessions, morning, lunch, afternoon
 
+        
+        
+        
+        
+        //add days of the week
     }
 
     public static void mainMenu() {
@@ -83,7 +88,7 @@ public class ResourceBooking {
 
     }
 
-    public static void roomBook() {
+    public static void roomBook() { //make it so no duplicate appointments can be made
         initialiseBoard();
 
         try {
@@ -327,8 +332,11 @@ public class ResourceBooking {
             if (email.contains("@")) {
                 if (email.contains(".co.uk") || email.contains(".com") || email.contains(".ac.uk")) {
                     System.out.println("\n");
+                    valid = false;
+                } else {
+                    System.out.print("");
                 }
-                valid = false;
+                
             } else {
                 System.out.println("Email not valid. Please try again.");
             }
