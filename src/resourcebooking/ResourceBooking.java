@@ -12,8 +12,11 @@ public class ResourceBooking {
 
     public static Scanner input = new Scanner(System.in);
     
+    public static ArrayList<RoomBooking> bookings = new ArrayList<>();
     public static ArrayList<Catering> cateringRequests = new ArrayList<>();
     public static ArrayList<Equiptment> equipmentRequests = new ArrayList<>();
+    private static String[][] board = new String[3][5]; //3 = rows, 5 = columns
+    private static String[] letters = {"A","B","C"};
 
     public static void main(String[] args) {
         cateringRequests = Catering.readFile();
@@ -43,21 +46,27 @@ public class ResourceBooking {
                 int menuChoice = input.nextInt();
                 switch (menuChoice) {
                     case 1:
+                        System.out.println("");
                         roomBook();
                         break;
                     case 2:
+                        System.out.println("");
                         reqRefreshments();
                         break;
                     case 3:
+                        System.out.println("");
                         reqEquipment();
                         break;
                     case 4:
+                        System.out.println("");
                         viewCatering();
                         break;
                     case 5:
+                        System.out.println("");
                         viewEquipment();
                         break;
                     case 6:
+                        System.out.println("");
                         removeBooking();
                         break;
                     case 0:
@@ -75,10 +84,172 @@ public class ResourceBooking {
     }
 
     public static void roomBook() {
-        // enter number of poeple in your meeting room and choose the room based on how may poeple fit. eg. a room with 3 poeple can go in rooms 2 - 5.
-        // put x in 2d array to signify room taken.
+        initialiseBoard();
+
+        try {
+            
+            String email = emailVerif();
+            String access = "";
+            int columnNo = 0;
+            
+            System.out.println("A - Morning session   (09:00 - 11:30)");
+            System.out.println("B - Lunch session     (12:00 - 14:30)");
+            System.out.println("C - Afternoon session (15:00 - 17:30)\n");
+            refreshBoard();
+
+            while (true) {
+                System.out.println("\nDo you need disabled access? y/n");
+                access = input.next();
+                if (access.equalsIgnoreCase("y")) {
+                    columnNo = 4;
+                    break;
+                } else if (access.equalsIgnoreCase("n")) {
+                    columnNo = getColumn();
+                    break;
+                } else {
+                    System.out.println("Please enter a valid answer.");
+                }
+            }
+            
+            int rowNo = getRow();
+            //System.out.println(rowNo);
+
+            board[rowNo][columnNo] = "[X]";
+            printBoard();
+
+            //room 5 = 15<x<=50
+            //room 4 = 8<x<=15 
+            //room 3 = 4<x<=8
+            //room 2 = 2<x<=4
+            //room 1 = 2=x
+            
+            
+            System.out.println("\nEnter the amount of people:");
+            int amountPeople = input.nextInt();
+            
+
+            if (access.equalsIgnoreCase("y")) {
+                System.out.println("valid Room 5");
+            } else if ((amountPeople == 2) && (columnNo == 0))  {
+                System.out.println("Valid. Room 1");
+            } else if ((2 < amountPeople) && (amountPeople < 5) && columnNo == 1) {
+                System.out.println("Valid. Room 2");
+            } else if ((4 < amountPeople) && (amountPeople < 9) && columnNo == 2) {
+                System.out.println("Valid. Room 3");
+            } else if ((8 < amountPeople) && (amountPeople < 16) && columnNo == 3) {
+                System.out.println("Valid. Room 4");
+            } else if ((15 < amountPeople) && (amountPeople < 51) && columnNo == 4) {
+                System.out.println("Valid. Room 5");
+            } else if ((amountPeople > 50) || (amountPeople < 2)) {
+                System.out.println("Not valid.");
+            } else {
+                System.out.println("Not valid.");
+            }
+            
+            
+            
+            RoomBooking newBooking = new RoomBooking(email, access, columnNo, rowNo, amountPeople);
+            bookings.add(newBooking);
+            
+            RoomBooking.writeFile(bookings);
+            //make object with every input, then when program restarts, fill in grid with information. can also store email, no of people, time and roomNo (for coords), etc
+            
+            refreshBoard();
+            
+            
+        } catch (Exception e) {
+            System.out.println("Error occurred.\nBooking cancelled. " + e);
+        }
+        
+        
+        
     }
 
+        public static void initialiseBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 5; j++) {
+                board[i][j] = "[ ]";                
+            }
+        }
+    }
+    
+    public static void printBoard() {
+        System.out.println("    1  2  3  4  5");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(" " + letters[i] + " ");
+            for (int j = 0; j < 5; j++) {
+                System.out.print(board[i][j]);                
+            } 
+            System.out.println("");
+        }
+    }
+    
+    public static int getColumn() {
+        int roomNo = 0;
+        while (true) {
+                System.out.println("Enter Room Number:");
+                roomNo = input.nextInt();
+                if ((roomNo < 1) || (roomNo > 5)) {
+                    System.out.println("Room number not valid.");                    
+                } else {
+                    //System.out.println("Valid.");
+                    roomNo = roomNo - 1;
+                    break;
+                }
+            }
+        return roomNo;
+    }
+    
+    public static int getRow() {
+        int rowNo = 0;        
+        boolean valid = false;
+        while (valid == false) {
+            System.out.println("Enter session letter:");
+            String sessionLetter = input.next();
+
+            for (int i = 0; i < letters.length; i++) {
+//                System.out.println(i);
+                if (sessionLetter.equalsIgnoreCase(letters[i])) {
+                    rowNo = i;                    
+                    valid = true;
+                } else {
+                    System.out.print("");
+                }
+            }
+        }
+        return rowNo;
+    }
+    
+    public static void refreshBoard() {
+        for (int i = 0; i < bookings.size(); i++) {
+            board[bookings.get(i).getyCoord()][bookings.get(i).getxCoord()] = "[x]";            
+        }        
+        printBoard();
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public static void reqRefreshments() {
         int roomNumber = roomVerif();
         String email = emailVerif();
@@ -155,7 +326,7 @@ public class ResourceBooking {
 
             if (email.contains("@")) {
                 if (email.contains(".co.uk") || email.contains(".com") || email.contains(".ac.uk")) {
-                    System.out.println("Email valid.");
+                    System.out.println("\n");
                 }
                 valid = false;
             } else {
