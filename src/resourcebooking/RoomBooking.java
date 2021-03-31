@@ -12,7 +12,6 @@ public class RoomBooking {
         
         ResourceBooking.initialiseBoard(); //create board
         
-        
         String email = ResourceBooking.emailVerif(); //gets user email
         String time = "";
         String disabled = "y";
@@ -27,27 +26,26 @@ public class RoomBooking {
         System.out.println("A - Morning session   (09:00 - 11:30)");
         System.out.println("B - Lunch session     (12:00 - 14:30)");
         System.out.println("C - Afternoon session (15:00 - 17:30)\n");
-        Monday.refresh(); //display board
+        refresh(day); //display board
         
         System.out.println("\nDo you need disabled access?\n1 - yes\n2 - No");
         int access = input.nextInt();
         System.out.println("");
-        while (true) {
+        boolean loop = false;
+        while (loop == false) {
             if (access == 1) {
                 columnNo = 3; //room 4 has disabled access
-                break;
+                loop = true;
             } else if (access == 2) {
                 columnNo = ResourceBooking.getColumn(); //any room
-                break;
+                loop = true;
             } else {
                 System.out.println("Please enter a valid input.");
             }
         }
         
         int rowNo = ResourceBooking.getRow(); //gets row Number
-        
-        //refreshBoard(); //refreshes board to display any taken slots
-                
+                        
         if (rowNo == 0) {
             time = "0900 - 11:30";
         } else if (rowNo == 1) {
@@ -58,25 +56,58 @@ public class RoomBooking {
             System.out.print("");
         }
         
-        ResourceBooking.board[rowNo][columnNo] = "[X]";
-        ResourceBooking.printBoard();
         
-        System.out.println("How many people will be in the meeting room?");
-        int amountPeople = input.nextInt();
-        
-        
-        boolean valid = peopleCheck(amountPeople, columnNo);
+//        ResourceBooking.printBoard();
+
+        boolean timeSlotCheck = bookingCheck(day);
+        System.out.println(timeSlotCheck);
         
         
-        if (valid == true) {
-            Monday newMondayBooking = new Monday(day, email, time, disabled, rowNo, columnNo, amountPeople);
-            Monday.mondayBookings.add(newMondayBooking);
-            Monday.writeFile(Monday.mondayBookings);
-            Monday.refresh();
+
+        if (timeSlotCheck == true) {
+
+            ResourceBooking.board[rowNo][columnNo] = "[X]";
+            
+            System.out.println("How many people will be in the meeting room?");
+            int amountPeople = input.nextInt();
+
+            boolean valid = peopleCheck(amountPeople, columnNo);
+            if (valid == true) {
+                
+                if (day.equals("Monday")) {
+                    Monday newMondayBooking = new Monday(day, email, time, disabled, rowNo, columnNo, amountPeople);
+                    Monday.mondayBookings.add(newMondayBooking);
+                    Monday.writeFile(Monday.mondayBookings);
+                    refresh(day);
+                    
+                } else if (day.equals("Tuesday")) {
+                    Tuesday newTuesdayBooking = new Tuesday(day, email, time, disabled, rowNo, columnNo, amountPeople);
+                    Tuesday.tuesdayBookings.add(newTuesdayBooking);
+                    Tuesday.writeFile(Tuesday.tuesdayBookings);
+                    refresh(day);
+                    
+                } else if (day.equals("Wednesday")) {
+                    Wednesday newWednesdayBooking = new Wednesday(day, email, time, disabled, rowNo, columnNo, amountPeople);
+                    Wednesday.wednesdayBookings.add(newWednesdayBooking);
+                    Wednesday.writeFile(Wednesday.wednesdayBookings);
+                    refresh(day);
+                    
+                } else if (day.equals("Thursday")) {
+                    Thursday newThursdayBooking = new Thursday(day, email, time, disabled, rowNo, columnNo, amountPeople);
+                    Thursday.thursdayBookings.add(newThursdayBooking);
+                    refresh(day);
+
+                } else if (day.equals("Friday")) {
+
+                }
+
+            } else {
+                System.out.println("Error - Please choose the correct size room.");
+            }
+
         } else {
-            System.out.println("Error - Please choose the correct size room.");
+            System.out.println("Please do not choose time slots that are already taken.\nBooking cancelled.");
         }
-        
         
     }
     
@@ -104,13 +135,88 @@ public class RoomBooking {
         return validation;
     }
     
-    public static void updateBoard() {
-        for (int i = 0; i < Monday.mondayBookings.size(); i++) {
-            ResourceBooking.board[Monday.mondayBookings.get(i).getyCoord()][Monday.mondayBookings.get(i).getxCoord()] = "[X]";
+    public static boolean bookingCheck(String day) {
+        boolean valid = true;
+        
+        if (day.equals("Monday")) {
+            for (int i = 0; i < Monday.mondayBookings.size(); i++) {
+                if (ResourceBooking.board[Monday.mondayBookings.get(i).getxCoord()][Monday.mondayBookings.get(i).getyCoord()] == "[X]") {
+                    valid = true;
+                } else {
+                    valid = false;
+                }
+            }
+        } else if (day.equals("Tuesday")) {
+            for (int i = 0; i < Tuesday.tuesdayBookings.size(); i++) {
+                if (ResourceBooking.board[Tuesday.tuesdayBookings.get(i).getxCoord()][Tuesday.tuesdayBookings.get(i).getyCoord()] == "[X]") {
+                    valid = true;
+                }
+                valid = false;
+            }
+            
+        } else if (day.equals("Wednesday")) {
+            for (int i = 0; i < Wednesday.wednesdayBookings.size(); i++) {
+                if (ResourceBooking.board[Wednesday.wednesdayBookings.get(i).getxCoord()][Wednesday.wednesdayBookings.get(i).getyCoord()] == "[X]") {
+                    valid = true;
+                }
+                valid = false;
+            }
+        } else if (day.equals("Thursday")) {
+            for (int i = 0; i < Thursday.thursdayBookings.size(); i++) {
+                if (ResourceBooking.board[Thursday.thursdayBookings.get(i).getxCoord()][Thursday.thursdayBookings.get(i).getyCoord()] == "[X]") {
+                    valid = true;
+                }
+                valid = false;
+            }
+        } else if (day.equals("Friday")) {
+            for (int i = 0; i < Friday.fridayBookings.size(); i++) {
+                if (ResourceBooking.board[Friday.fridayBookings.get(i).getxCoord()][Friday.fridayBookings.get(i).getyCoord()] == "[X]") {
+                    valid = true;
+                }
+                valid = false;
+            }
+        } else {
+            System.out.println("Error occured");
         }
-        ResourceBooking.printBoard();
+
+        return valid;
     }
+
     
+    public static void refresh(String day) {
+        if (day.equals("Monday")) {
+            for (int i = 0; i < Monday.mondayBookings.size(); i++) {
+                ResourceBooking.board[Monday.mondayBookings.get(i).getxCoord()][Monday.mondayBookings.get(i).getyCoord()] = "[X]";                
+            }
+            ResourceBooking.printBoard();
+            
+        } else if (day.equals("Tuesday")) {
+            for (int i = 0; i < Tuesday.tuesdayBookings.size(); i++) {
+                ResourceBooking.board[Tuesday.tuesdayBookings.get(i).getxCoord()][Tuesday.tuesdayBookings.get(i).getyCoord()] = "[X]";                
+            } 
+            ResourceBooking.printBoard();
+            
+        } else if (day.equals("Wednesday")) {
+            for (int i = 0; i < Wednesday.wednesdayBookings.size(); i++) {
+                ResourceBooking.board[Wednesday.wednesdayBookings.get(i).getxCoord()][Wednesday.wednesdayBookings.get(i).getyCoord()] = "[X]";
+            }
+            ResourceBooking.printBoard();
+            
+        } else if (day.equals("Thursday")) {
+            for (int i = 0; i < Thursday.thursdayBookings.size(); i++) {
+                ResourceBooking.board[Thursday.thursdayBookings.get(i).getxCoord()][Thursday.thursdayBookings.get(i).getyCoord()] = "[X]";                
+            }
+            ResourceBooking.printBoard();
+            
+        } else if (day.equals("Friday")) {
+            for (int i = 0; i < Friday.fridayBookings.size(); i++) {
+                ResourceBooking.board[Friday.fridayBookings.get(i).getxCoord()][Friday.fridayBookings.get(i).getyCoord()] = "[X]";
+            }
+            ResourceBooking.printBoard();
+        } else {
+            System.out.println("Error Occured.");
+        }
+    }
 
     
     

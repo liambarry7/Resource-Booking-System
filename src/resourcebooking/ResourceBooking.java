@@ -90,6 +90,7 @@ public class ResourceBooking {
     }
     
     public static void room() {
+        String day = "";
         try {
             System.out.println("Choose day:");
             System.out.println("1 - Monday");
@@ -100,32 +101,37 @@ public class ResourceBooking {
             int menuChoice = input.nextInt();
             switch (menuChoice) {
                 case 1:
-                        System.out.println("");
-                        String day = "Monday";
-                        RoomBooking.roomBook(day);
-                        break;
-                    case 2:
-                        System.out.println("");
-                        
-                        break;
-                    case 3:
-                        System.out.println("");
-                        
-                        break;
-                    case 4:
-                        System.out.println("");
-                        
-                        break;
-                    case 5:
-                        System.out.println("");
-                        
-                        break;            }
-            
+                    System.out.println("");
+                    day = "Monday";
+                    RoomBooking.roomBook(day);
+                    break;
+                case 2:
+                    System.out.println("");
+                    day = "Tuesday";
+                    RoomBooking.roomBook(day);
+                    break;
+                case 3:
+                    System.out.println("");
+                    day = "Wednesday";
+                    RoomBooking.roomBook(day);
+                    break;
+                case 4:
+                    System.out.println("");
+                    day = "Thurday";
+                    RoomBooking.roomBook(day);
+                    break;
+                case 5:
+                    System.out.println("");
+                    day = "Friday";
+                    RoomBooking.roomBook(day);
+                    break;
+            }
+
         } catch (Exception e) {
             System.out.println("Error occured: " + e);
         }
-        
-        
+
+
     }
 
 //    public static void roomBook() { //make it so no duplicate appointments can be made

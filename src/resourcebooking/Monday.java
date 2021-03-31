@@ -127,12 +127,12 @@ public class Monday {
         return mondayBookingList;
     }
 
-    public static void refresh() {
-        for (int i = 0; i < mondayBookings.size(); i++) {
-            ResourceBooking.board[mondayBookings.get(i).getxCoord()][mondayBookings.get(i).getyCoord()] = "[X]";
-        }
-        ResourceBooking.printBoard();
-    }
+//    public static void refresh() {
+//        for (int i = 0; i < mondayBookings.size(); i++) {
+//            ResourceBooking.board[mondayBookings.get(i).getxCoord()][mondayBookings.get(i).getyCoord()] = "[X]";
+//        }
+//        ResourceBooking.printBoard();
+//    }
     
     
     
